@@ -4,6 +4,7 @@ const burger__window = document.getElementById('burger__menu__window');
 burger.addEventListener('click', () => {
     burger.classList.toggle('active');
     burger__window.classList.toggle('active');
+    document.body.classList.toggle('body-no-scroll');
 });
 
 burger__window.addEventListener('animationend', () => {

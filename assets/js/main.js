@@ -1,4 +1,4 @@
-const windowepta = document.getElementById('window_epta'); 
+const videosYt = document.querySelectorAll('.videoYt'); 
 const presentation = document.getElementById('presentation');
 const presentation__inner = document.getElementById('presentation__inner');
 
@@ -12,37 +12,42 @@ function removeStr(str) {
     return result.join('');
 }
 
-presentation.style.height = (presentation__inner.offsetHeight / 1.57) + 'px';
-
-// presentation.style.height = String(removeStr(presentation__inner.style.height) / 2) + 'px';
-
-windowepta.addEventListener('click', () => {
-  // Очищаем элемент с помощью цикла while
-    
-    const iframe = document.createElement('iframe');
-    iframe.width = document.getElementById('windowepta').offsetWidth;
-    iframe.height = '500';
-
-    while (windowepta.firstChild) {
-        windowepta.removeChild(windowepta.firstChild);
+function getRandomElement(array) {
+    if (array.length === 0) {
+        return null; // Если массив пустой, возвращаем null
     }
-    windowepta.style.height = '500px';
+    const randomIndex = Math.floor(Math.random() * array.length); // Генерируем случайный индекс
+    return array[randomIndex]; // Возвращаем элемент по случайно выбранному индексу
+}
 
-    // Создаем iframe
+videoLinks = ['https://www.youtube.com/embed/x2s37zP0eqI?si=aYBWTH1XcSXVG5Gm', 'https://www.youtube.com/embed/nSzvLnKyEww?si=MN9n3prRLPjT_9Xr', 'https://www.youtube.com/embed/iE39q-IKOzA?si=_wDCpCJcmi-P5cie']
 
-    console.log(iframe.width);
-
-    iframe.src = "https://www.youtube.com/embed/6rHuNVxoz08?si=9_hMOXugpLs_HWaY";
-    iframe.title = "YouTube video player";
-    iframe.frameborder = "0";
-    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-    iframe.referrerpolicy = "strict-origin-when-cross-origin";
-    iframe.allowfullscreen = true;
-
-    // Находим родительский элемент (например, div с ID 'video-container')
-    const videoContainer = document.getElementById('video-container');
-
-    // Добавляем iframe в родительский элемент
-    windowepta.appendChild(iframe);
-
+videosYt.forEach((video) => {
+    video.addEventListener('click', () => {
+    
+        let wWidth = video.offsetWidth;
+        let wHeight = video.offsetHeight;
+        
+        const iframe = document.createElement('iframe');
+    
+        while (video.firstChild) {
+            video.removeChild(video.firstChild);
+        }
+        
+        iframe.src = getRandomElement(videoLinks);
+        iframe.title = "YouTube video player";
+        iframe.frameborder = "0";
+        iframe.width = `${wWidth}`;
+        iframe.height = `${wHeight}`;
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.referrerpolicy = "strict-origin-when-cross-origin";
+        iframe.allowfullscreen = true;
+    
+        // Находим родительский элемент (например, div с ID 'video-container')
+        const videoContainer = document.querySelector('.video-container');
+    
+        // Добавляем iframe в родительский элемент
+        video.appendChild(iframe);
+    
+    });
 });

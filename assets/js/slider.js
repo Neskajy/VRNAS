@@ -4,12 +4,14 @@ let sliderImages = document.querySelectorAll('.slide'),
     swiperSlider = document.getElementById('swiper-slider');
 
 let sliderLength = sliderImages.length,
-    sliderCount = 0,//Math.floor(sliderImages.length / 2)
+    sliderCount = 0,
     sliderWidth = swiperSlider.offsetWidth,
-    windowWidth = window.screen.width,
+    windowWidth = window.innerWidth,
     imgVisibleCount,
     startX,
     endX,
+    touchStartX,
+    touchEndX,
     autoplayInterval;
 
 console.log(sliderWidth);
@@ -54,12 +56,10 @@ if (dotsContainer) {
 
 
 function updateDots() {
-    // Удалить класс 'active' у всех точек
     Array.from(dotsContainer.children).forEach(dot => {
         dot.classList.remove('active');
     });
 
-    // Убедиться, что sliderCount находится в допустимом диапазоне
     if (sliderCount >= 0 && sliderCount < dotsContainer.children.length) {
         dotsContainer.children[sliderCount].classList.add('active');
     }
@@ -73,13 +73,11 @@ function showSlide() {
 }
 
 showSlide();
-// focusSlide();
 
 function nextSlide(plusCount=true) {
     if (plusCount) sliderCount++;
     if (sliderCount > sliderImages.length - imgVisibleCount) sliderCount = 0;
     rollSlide();
-    // unfocusSlide();
 }
 
 function prevSlide() {
@@ -92,7 +90,6 @@ function prevSlide() {
 function rollSlide() {
     slider.style.transform = `translateX(${(-sliderCount * sliderWidth / imgVisibleCount) - Number(sliderParent.style.gap.replace('px', ''))}px)`;
     updateDots();
-    // focusSlide();
 }
 
 function focusSlide() {
@@ -103,7 +100,7 @@ function unfocusSlide() {
     [sliderImages[sliderCount - 1].style.opacity, sliderImages[sliderCount++].style.opacity] = ['1', '1'];
 }
 
-autoplayInterval = setInterval(nextSlide, 7000); // Меняйте слайды каждые 3 секунды
+autoplayInterval = setInterval(nextSlide, 7000);
 
 swiperSlider.addEventListener('mouseover', () => {
     clearInterval(autoplayInterval);
@@ -115,6 +112,7 @@ swiperSlider.addEventListener('mouseout', () => {
 
 slider.addEventListener('resize', showSlide);
 
+// События для мыши
 sliderParent.addEventListener('mousedown', (e) => {
     startX = e.clientX;
     initialPosition = sliderCount * (windowWidth / imgVisibleCount);
@@ -141,6 +139,38 @@ sliderParent.addEventListener('mouseup', () => {
 function onMouseMove(e) {
     if (startX !== undefined) {
         endX = e.clientX;
-        // slider.style.transform = `translateX(-${initialPosition - (endX - startX)}px)`;
     }
+}
+
+// События для касаний
+sliderParent.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    initialPosition = sliderCount * (windowWidth / imgVisibleCount);
+    sliderParent.addEventListener('touchmove', onTouchMove);
+});
+
+sliderParent.addEventListener('touchend', (e) => {
+    sliderParent.removeEventListener('touchmove', onTouchMove);
+    touchEndX = e.changedTouches[0].clientX;
+    if (touchEndX !== undefined) {
+        if (touchStartX > touchEndX + windowWidth / 2) {
+            nextSlide();
+        } else if (touchStartX < touchEndX - windowWidth / 2) {
+            prevSlide();
+        } else if (touchStartX > touchEndX + 50) {
+            nextSlide();
+        } else if (touchStartX < touchEndX - 50) {
+            prevSlide();
+        }
+    }
+    touchStartX = undefined;
+    touchEndX = undefined;
+});
+
+function onTouchMove(e) {
+    const touchX = e.touches[0].clientX;
+    const deltaX = touchX - touchStartX;
+    // ... (обновление позиции слайдера)
+    // Например:
+    slider.style.transform = `translateX(${(-sliderCount * sliderWidth / imgVisibleCount) - deltaX}px)`;
 }

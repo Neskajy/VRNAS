@@ -158,7 +158,7 @@ input:hover, input:focus, input:active {
   white-space: nowrap;
 }
 
-.how-start .container .window::before, .why-choose-us .container .picture::before, .our-service .container .title p::before, .about-us .container .picture::before {
+.how-start .container .videoYt::before, .why-choose-us .container .picture::before, .our-service .container .title p::before, .about-us .container .picture::before, .banner .container .picture::before {
   content: "";
   position: absolute;
   z-index: -20;
@@ -243,7 +243,7 @@ input:hover, input:focus, input:active {
   opacity: 1;
 }
 
-.how-start .container .button, .about-us .container .right .button, .banner .container .left .title .button {
+.pricing .container .block-info .absolute__offer .button, .how-start .container .button, .about-us .container .right .button, .banner .container .left .title .button {
   letter-spacing: 1.5px;
   padding: 18px 38px;
   background: linear-gradient(90deg, rgb(12, 186, 241) 0%, rgb(233, 92, 233) 100%);
@@ -253,8 +253,9 @@ input:hover, input:focus, input:active {
   background: linear-gradient(90deg, rgb(12, 186, 241) 0%, rgb(233, 92, 233) 100%);
   background-size: 100%;
   position: relative;
+  z-index: 10;
 }
-.how-start .container .button::before, .about-us .container .right .button::before, .banner .container .left .title .button::before {
+.pricing .container .block-info .absolute__offer .button::before, .how-start .container .button::before, .about-us .container .right .button::before, .banner .container .left .title .button::before {
   content: "";
   position: absolute;
   background: linear-gradient(90deg, rgb(12, 186, 241) 0%, rgb(233, 92, 233) 100%);
@@ -268,7 +269,7 @@ input:hover, input:focus, input:active {
   opacity: 0;
   transition: all 0.3s ease 0s;
 }
-.how-start .container .button:hover::before, .about-us .container .right .button:hover::before, .banner .container .left .title .button:hover::before {
+.pricing .container .block-info .absolute__offer .button:hover::before, .how-start .container .button:hover::before, .about-us .container .right .button:hover::before, .banner .container .left .title .button:hover::before {
   opacity: 1;
 }
 
@@ -485,6 +486,17 @@ body {
   overflow-x: hidden;
 }
 
+.body-no-scroll {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
 @media (width <= 1325px) {
   .footer .container, .subscribe .container, .our-articles .container, .trusted-partners .container, .pricing .container, .how-start .container, .why-choose-us .container, .our-service .container, .about-us .container, .advantages .container, .banner .container, .header .container {
     width: 90%;
@@ -656,7 +668,6 @@ body {
   z-index: -1;
   left: 0;
   bottom: 10%;
-  height: 75%;
 }
 .banner .container {
   display: flex;
@@ -706,8 +717,62 @@ body {
 .banner .container .left .description .happy-client p {
   white-space: nowrap;
 }
-.banner .container .left .description .video {
+.banner .container .left .description .videoYt {
+  aspect-ratio: 398/254;
+  position: relative;
   width: 196px;
+  max-width: 196px;
+  min-width: 196px;
+  border-radius: 12px;
+  width: 100%;
+}
+.banner .container .left .description .videoYt .video__body {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+}
+.banner .container .left .description .videoYt .video__body .preview {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transition: 0.2 all linear;
+}
+.banner .container .left .description .videoYt .video__body .preview img {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  z-index: -100;
+  height: 100%;
+}
+.banner .container .left .description .videoYt .video__body .video__info::before {
+  content: "";
+  position: absolute;
+  cursor: pointer;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
+  transition: 1.2 all linear;
+  transform: translate(-50%, -50%);
+  background: url(https://live.verstaem.online/vrnas/img/started/play.svg) center/contain no-repeat;
+  width: 2.75rem;
+  height: 2.75rem;
+  transition: 0.2 all linear;
+}
+.banner .container .left .description .videoYt:hover .preview img {
+  transform: scale(1.1);
+}
+.banner .container .left .description .videoYt:hover .video__info::before {
+  width: 3.5rem;
+  height: 3.5rem;
 }
 .banner .container .picture {
   display: flex;
@@ -717,6 +782,10 @@ body {
   width: 80%;
   -o-object-fit: cover;
      object-fit: cover;
+}
+.banner .container .picture::before {
+  width: 25%;
+  left: unset !important;
 }
 
 @media (width <= 1120px) {
@@ -735,10 +804,11 @@ body {
     -o-object-fit: fill;
        object-fit: fill;
     min-height: 354px;
-    max-height: 550px;
+    max-height: 826px;
   }
-  .banner .container .description .yt_video {
-    position: absolute;
+  .banner .container .description .videoYt {
+    max-width: 214px !important;
+    position: absolute !important;
     bottom: 10%;
   }
 }
@@ -1101,14 +1171,14 @@ body {
 .how-start .container .title h2 {
   text-align: center;
 }
-.how-start .container .window {
+.how-start .container .videoYt {
   max-height: 500px;
   aspect-ratio: 398/254;
   position: relative;
   border-radius: 12px;
   width: 100%;
 }
-.how-start .container .window .video__body {
+.how-start .container .videoYt .video__body {
   width: 100%;
   height: 100%;
   border-radius: 12px;
@@ -1117,7 +1187,7 @@ body {
   flex-direction: column;
   cursor: pointer;
 }
-.how-start .container .window .video__body .preview {
+.how-start .container .videoYt .video__body .preview {
   border-radius: 12px;
   position: absolute;
   width: 100%;
@@ -1125,7 +1195,7 @@ body {
   overflow: hidden;
   transition: 0.2 all linear;
 }
-.how-start .container .window .video__body .preview img {
+.how-start .container .videoYt .video__body .preview img {
   top: 0;
   left: 0;
   bottom: 0;
@@ -1136,7 +1206,7 @@ body {
   z-index: -100;
   height: 100%;
 }
-.how-start .container .window .video__body .video__info {
+.how-start .container .videoYt .video__body .video__info {
   width: 95%;
   padding: 2.5rem 1.875rem 1.25rem;
   display: flex;
@@ -1145,17 +1215,17 @@ body {
   height: 100%;
   z-index: 2;
 }
-.how-start .container .window .video__body .video__info .video__title {
+.how-start .container .videoYt .video__body .video__info .video__title {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
-.how-start .container .window .video__body .video__info .video__bottom {
+.how-start .container .videoYt .video__body .video__info .video__bottom {
   display: flex;
   align-items: center;
   gap: 12px;
 }
-.how-start .container .window .video__body .video__info .video__bottom .video__play {
+.how-start .container .videoYt .video__body .video__info .video__bottom .video__play {
   background: url(../media/icons/notsocial/play.svg);
   aspect-ratio: 1;
   width: 12px;
@@ -1163,7 +1233,7 @@ body {
   background-size: cover;
   cursor: pointer;
 }
-.how-start .container .window .video__body .video__info .video__bottom .video__progress {
+.how-start .container .videoYt .video__body .video__info .video__bottom .video__progress {
   cursor: pointer;
   width: 100%;
   height: 8px;
@@ -1171,7 +1241,7 @@ body {
   background: rgba(255, 255, 255, 0.15);
   position: relative;
 }
-.how-start .container .window .video__body .video__info .video__bottom .video__progress::before {
+.how-start .container .videoYt .video__body .video__info .video__bottom .video__progress::before {
   content: "";
   position: absolute;
   width: 8%;
@@ -1179,7 +1249,7 @@ body {
   height: 100%;
   border-radius: 4px;
 }
-.how-start .container .window .video__body .video__info .video__bottom .video__progress::after {
+.how-start .container .videoYt .video__body .video__info .video__bottom .video__progress::after {
   content: "";
   position: absolute;
   aspect-ratio: 1;
@@ -1187,7 +1257,7 @@ body {
   height: 100%;
   border-radius: 4px;
 }
-.how-start .container .window .video__body .video__info::before {
+.how-start .container .videoYt .video__body .video__info::before {
   content: "";
   position: absolute;
   cursor: pointer;
@@ -1201,14 +1271,14 @@ body {
   height: 6.25rem;
   transition: 0.2 all linear;
 }
-.how-start .container .window:hover .preview img {
+.how-start .container .videoYt:hover .preview img {
   transform: scale(1.1);
 }
-.how-start .container .window:hover .video__info::before {
+.how-start .container .videoYt:hover .video__info::before {
   width: 7.5rem;
   height: 7.5rem;
 }
-.how-start .container .window::before {
+.how-start .container .videoYt::before {
   top: 0;
   left: 0;
   width: 30%;
@@ -1245,7 +1315,6 @@ body {
 .pricing .container .block-info {
   position: relative;
   background: rgb(37, 37, 50);
-  z-index: -1;
   padding: 55px 42px;
   display: flex;
   justify-content: space-between;
@@ -1276,7 +1345,26 @@ body {
 .pricing .container .block-info::before {
   width: 50%;
 }
-
+.pricing .container .block-info .absolute__offer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  gap: 14px;
+  padding: 20px 70px;
+  background: rgb(37, 37, 50);
+  z-index: 20;
+  right: 10%;
+  bottom: -10%;
+  border: 1px solid white;
+}
+.pricing .container .block-info .absolute__offer .title {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 0px;
+  white-space: nowrap;
+}
 @media (width <= 1130px) {
   .pricing .container .block-info {
     flex-direction: column;
